@@ -13,6 +13,8 @@ export interface Setting {
 
 } 
 
+const DeveloperApplicationBotSettings = lazy(() => import("@/components/settings/developer/DeveloperApplicationBotSettings"));
+
 const settings: Setting[] =  [
   {
     path: "account",
@@ -42,6 +44,13 @@ const settings: Setting[] =  [
     name: "settings.drawer.notifications",
     icon: "notifications",
     element: lazy(() => import("@/components/settings/NotificationsSettings"))
+  },
+  {
+    path: "call-settings",
+    routePath: "/call-settings",
+    name: "settings.drawer.call-settings",
+    icon: "call",
+    element: lazy(() => import("@/components/settings/CallSettings"))
   },
   {
     path: "connections",
@@ -112,6 +121,15 @@ const settings: Setting[] =  [
     hide: true,
     element: lazy(() => import("@/components/settings/developer/DeveloperApplicationBotCreateLinkSettings"))
   },
+  {
+    path: "developer/applications",
+    routePath: "/developer/applications/:id/bot/profile",
+    name: "settings.drawer.developer",
+    hideHeader: true,
+    icon: "code",
+    hide: true,
+    element: DeveloperApplicationBotSettings
+  },
 
   {
     path: "developer/applications",
@@ -120,7 +138,7 @@ const settings: Setting[] =  [
     hideHeader: true,
     icon: "code",
     hide: true,
-    element: lazy(() => import("@/components/settings/developer/DeveloperApplicationBotSettings"))
+    element: DeveloperApplicationBotSettings
   },
   {
     path: "experiments",

@@ -17,7 +17,6 @@
     "paths": {
       "@/*": ["./src/*"],
       "@thaunknown/simple-peer": ["./node_modules/@types/simple-peer"]
-
     }
   }
 }

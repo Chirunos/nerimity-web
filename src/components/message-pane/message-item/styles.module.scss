@@ -7,6 +7,11 @@
   }
 }
 
+.username {
+  text-overflow: ellipsis;
+  overflow: hidden;
+}
+
 .floatOptions {
   display: flex;
   align-items: center;
@@ -52,13 +57,18 @@
   }
 }
 
-
 .systemMessage {
+  overflow: hidden;
   display: flex;
   gap: 5px;
   align-items: center;
   font-size: 14px;
   color: rgba(255, 255, 255, 0.7);
+  span {
+    word-break: break-word;
+    white-space: pre-line;
+  }
+
   .iconContainer {
     display: flex;
     align-items: center;
@@ -74,6 +84,91 @@
   }
 }
 
+.replies {
+  display: flex;
+  flex-direction: column;
+  margin-left: 12px;
+  margin-bottom: 8px;
+  flex: 1;
+  .replyItem {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    height: 26px;
+    font-size: 14px;
+    user-select: none;
+    cursor: pointer;
+    transition: 0.2s;
+    padding-left: 32px;
+    overflow: hidden;
+
+    &:hover {
+      opacity: 0.6;
+    }
+    .line {
+      position: absolute;
+      width: 2px;
+      background-color: var(--primary-color);
+      left: 13px;
+      top: 0;
+      bottom: 0;
+      &.first {
+        top: 14px;
+
+        &::before {
+          content: "";
+          position: absolute;
+          width: 28px;
+          height: 2px;
+          top: 0;
+          background-color: var(--primary-color);
+        }
+      }
+      &:not(.first) {
+        &::before {
+          content: "";
+          position: absolute;
+          width: 8px;
+          height: 4px;
+          border-radius: 99px;
+          top: 14px;
+          left: 14px;
+          background-color: var(--primary-color);
+        }
+      }
+    }
+    .replyContentContainer {
+      margin-left: 14px;
+      display: flex;
+      align-items: center;
+      gap: 4px;
+      overflow: hidden;
+
+      .replyUsername {
+        opacity: 0.6;
+        font-weight: bold;
+        max-width: 200px;
+        flex-shrink: 0;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+      }
+      .replyContent {
+        opacity: 0.6;
+        pointer-events: none;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        :global .markup {
+          overflow: hidden;
+          text-overflow: ellipsis;
+          white-space: nowrap;
+        }
+      }
+    }
+  }
+}
 
 .messageItem {
   display: flex;
@@ -86,7 +181,6 @@
   margin-top: 10px;
   gap: 5px;
   align-items: start;
-
 
   .blockedMessage {
     font-size: 14px;
@@ -111,7 +205,7 @@
   &.mentioned {
     background-color: rgba(255, 149, 149, 0.1);
     &:before {
-      content: '';
+      content: "";
       left: 0;
       top: 5px;
       bottom: 5px;
@@ -119,12 +213,19 @@
       background-color: var(--alert-color);
       border-radius: 8px;
       position: absolute;
-      
     }
   }
   &.someoneMentioned {
     // rainbow background gradient with 40% opacity
-    background: linear-gradient(90deg, rgba(255,0,0,0.2) 0%, rgba(255,165,0,0.2) 20%, rgba(255,255,0,0.2) 40%, rgba(0,255,0,0.2) 60%, rgba(0,0,255,0.2) 80%, rgba(136,0,130,0.2) 100%);
+    background: linear-gradient(
+      90deg,
+      rgba(255, 0, 0, 0.2) 0%,
+      rgba(255, 165, 0, 0.2) 20%,
+      rgba(255, 255, 0, 0.2) 40%,
+      rgba(0, 255, 0, 0.2) 60%,
+      rgba(0, 0, 255, 0.2) 80%,
+      rgba(136, 0, 130, 0.2) 100%
+    );
   }
 }
 
@@ -134,6 +235,8 @@
   flex-wrap: wrap;
 }
 body .reactionItem {
+  background: transparent;
+  background-color: rgba(255, 255, 255, 0.05);
   .emoji {
     height: 1.4em;
     width: 1.4em;
@@ -141,16 +244,12 @@ body .reactionItem {
     margin-right: 3px;
     object-fit: contain;
   }
-
-  background: transparent;
-  background-color: rgba(255, 255, 255, 0.05);
   &.reacted {
     background-color: rgba(255, 255, 255, 0.16);
     &:hover {
       background-color: rgba(255, 255, 255, 0.16);
     }
   }
-  
 }
 
 .whoReactedModal {
@@ -183,6 +282,19 @@ body .reactionItem {
 .messageInner {
   display: flex;
   flex-direction: column;
+  width: 100%;
+}
+
+.messageInnerInner {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  gap: 5px;
+}
+
+.messageInnerInnerInner {
+  display: flex;
+  flex-direction: column;
   gap: 3px;
   overflow: hidden;
   width: 100%;
@@ -199,7 +311,7 @@ body .reactionItem {
   padding: 2px;
   background-color: var(--primary-color);
   border-radius: 4px;
-} 
+}
 
 .details .date {
   color: rgba(255, 255, 255, 0.6);
@@ -234,7 +346,13 @@ body .reactionItem {
   flex-direction: column;
   align-items: start;
 }
-
+.htmlEmbedContainer {
+  display: flex;
+  position: relative;
+  overflow: auto;
+  align-self: normal;
+  max-height: 500px;
+}
 .ogEmbedContainer {
   display: flex;
   background-color: rgba(255, 255, 255, 0.02);
@@ -243,6 +361,34 @@ body .reactionItem {
   padding: 5px;
   gap: 5px;
   max-width: 500px;
+
+  .ogEmbedImageContainer {
+    align-self: flex-start;
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    .playButton {
+      position: absolute;
+      padding: 10px;
+      background-color: rgba(0, 0, 0, 0.86);
+      backdrop-filter: blur(34px);
+      border-radius: 6px;
+      z-index: 11;
+    }
+  }
+
+  &.largeImage {
+    flex-direction: column-reverse;
+    .ogEmbedImage {
+      max-width: 200px;
+      max-height: 200px;
+      height: 100%;
+      width: 100%;
+    }
+  }
+
   .ogEmbedImage {
     border-radius: 8px;
     object-fit: cover;
@@ -256,7 +402,7 @@ body .reactionItem {
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 2; /* number of lines to show */
-            line-clamp: 2; 
+    line-clamp: 2;
     -webkit-box-orient: vertical;
     margin-bottom: 5px;
   }
@@ -264,12 +410,11 @@ body .reactionItem {
     overflow: hidden;
     display: -webkit-box;
     -webkit-line-clamp: 5; /* number of lines to show */
-            line-clamp: 5; 
+    line-clamp: 5;
     -webkit-box-orient: vertical;
     font-size: 12px;
   }
 }
-
 
 .uploadProgress {
   display: flex;
@@ -301,7 +446,6 @@ body .reactionItem {
   }
 }
 
-
 @keyframes goUp {
   from {
     transform: translateY(30px);
@@ -312,7 +456,6 @@ body .reactionItem {
     opacity: 1;
   }
 }
-
 
 .serverInviteEmbed {
   display: flex;
@@ -340,7 +483,6 @@ body .reactionItem {
     flex-direction: column;
     gap: 4px;
     overflow: hidden;
-    
   }
 
   .serverName {
@@ -349,7 +491,6 @@ body .reactionItem {
 
     gap: 4px;
     overflow: hidden;
-
   }
   .serverNameOnly {
     display: -webkit-box;
@@ -357,7 +498,6 @@ body .reactionItem {
     -webkit-box-orient: vertical;
     overflow: hidden;
     font-size: 14px;
-
   }
   .serverMemberCount {
     display: flex;
@@ -366,7 +506,6 @@ body .reactionItem {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.6);
   }
-
 }
 
 .audioEmbed {
@@ -391,7 +530,7 @@ body .reactionItem {
   .progressBar {
     height: 10px;
     width: 100%;
-    background-color: rgba(255,255,255,0.1);
+    background-color: rgba(255, 255, 255, 0.1);
     border-radius: 9999px;
     overflow: hidden;
     .progress {
@@ -409,9 +548,8 @@ body .reactionItem {
     max-width: 500px;
     overflow: hidden;
   }
-
 }
-.fileEmbed	{
+.fileEmbed {
   display: flex;
   align-items: center;
   background-color: rgba(255, 255, 255, 0.02);
@@ -422,10 +560,8 @@ body .reactionItem {
   gap: 4px;
   min-width: 200px;
   max-width: 500px;
-  
+
   overflow: hidden;
-
-
 
   .fileEmbedDetails {
     display: flex;
@@ -445,9 +581,7 @@ body .reactionItem {
     font-size: 12px;
     color: rgba(255, 255, 255, 0.6);
   }
-
 }
-
 
 .youtubeEmbed {
   display: flex;
@@ -488,7 +622,7 @@ body .reactionItem {
 
     .title {
       font-weight: bold;
-      
+
       overflow: hidden;
       text-overflow: ellipsis;
       display: -webkit-box;
@@ -514,8 +648,6 @@ body .reactionItem {
     }
   }
 }
-
-
 
 .videoEmbed {
   display: flex;

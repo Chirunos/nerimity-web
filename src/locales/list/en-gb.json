@@ -1,6 +1,6 @@
 {
   "header": {
-    "accountButton": "Account",
+    "logoutButton": "Logout",
     "openAppButton": "Open App",
     "loginButton": "Login",
     "joinNowButton": "Join Now"
@@ -28,6 +28,16 @@
     "registerButton": "Register",
     "registering": "Registering...",
     "loginInstead": "Login Instead"
+  },
+  "dashboard": {
+    "title": "Dashboard",
+    "activeUsers": "Active Users",
+    "noActiveUsers": "No active users",
+    "servers": "Servers",
+    "posts": "Posts",
+    "feed": "Feed",
+    "discover": "Discover",
+    "notifications": "Notifications"
   },
   "inbox": {
     "drawer": {
@@ -158,7 +168,9 @@
       "ban": "Ban",
       "banDescription": "Permission to ban users.",
       "mentionEveryone": "Mention Everyone",
-      "mentionEveryoneDescription": "Enable mentioning @everyone. Server admins can still mention everyone."
+      "mentionEveryoneDescription": "Enable mentioning @everyone. Server admins can still mention everyone.",
+      "nicknameMember": "Nickname Member",
+      "nicknameMemberDescription": "Allow users to change their nickname in the server."
     },
     "channelPermissions": {
       "privateChannel": "Private Channel",
@@ -184,10 +196,38 @@
       "viewSource": "View Source",
       "changelog": "Changelog",
       "window-settings": "Window Settings",
+      "call-settings": "Call Settings",
       "activity-status": "Activity Status",
       "tickets": "Tickets",
       "privacy": "Privacy",
       "connections": "Connections"
+    },
+    "privacy": {
+      "directMessage": {
+        "title": "Direct Message",
+        "description": "Set Who can send you direct messages.",
+        "anyone": "Anyone",
+        "friendsAndServersOnly": "Friends and Servers Only",
+        "friendsOnly": "Friends Only"
+      },
+      "profileOptions": {
+        "title": "Profile Options",
+        "hideFollowers": "Hide Followers",
+        "hideFollowersDescription": "Hide your followers from your profile.",
+        "hideFollowing": "Hide Following",
+        "hideFollowingDescription": "Hide users you are following from your profile."
+      },
+      "friendRequest": {
+        "title": "Friend Request",
+        "description": "Set who can send you friend requests.",
+        "anyone": "Anyone",
+        "serversOnly": "Servers Only",
+        "nobody": "Nobody"
+      },
+      "lastOnline": {
+        "description": "Set who can see your last online time.",
+        "title": "Last Online Time"
+      }
     }
   },
   "addFriend": {
@@ -199,7 +239,8 @@
     "copyId": "Copy ID",
     "editRoles": "Edit Roles",
     "kick": "Kick",
-    "ban": "Ban"
+    "ban": "Ban",
+    "changeNickname": "Change Nickname"
   },
   "kickServerMemberModal": {
     "title": "Kick {{username}}",
@@ -253,6 +294,15 @@
     "createAPostInputPlaceholder": "Create a post...",
     "replyInputPlaceholder": "Reply...",
     "replyButton": "Reply",
-    "createButton": "Create"
+    "createButton": "Create",
+    "pollOptions": "Poll Options",
+    "optionNumberPlaceholder": "Option {{number}}"
+  },
+  "informationDrawer": {
+    "title": "Information",
+    "channelNotice": "Channel Notice",
+    "attachments": "Attachments",
+    "attachmentsBack": "Back",
+    "members": "Members"
   }
 }

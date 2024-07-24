@@ -7,9 +7,7 @@ import { keyframes, styled } from "solid-styled-components";
 import Text from "./Text";
 import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import styles from "./AvatarStyles.module.scss";
-import { SupporterBorderSvg } from "../avatar-borders/SupporterBorderSvg";
-import { AdminBorderSvg } from "../avatar-borders/AdminBorderSvg";
-import { FounderBorderSvg } from "../avatar-borders/FounderBorderSvg";
+import { FounderAdminSupporterBorder } from "../avatar-borders/FounderAdminSupporterBorder";
 
 interface Props {
   url?: string | null;
@@ -142,6 +140,15 @@ function AvatarBorder(props: {
         </Match>
         <Match when={props.badge?.bit === USER_BADGES.FOUNDER.bit}>
           <FounderBorder
+            size={props.size}
+            avatarUrl={props.url}
+            hovered={props.hovered}
+            color={props.color}
+            children={props.children}
+          />
+        </Match>
+        <Match when={props.badge?.bit === USER_BADGES.PALESTINE.bit}>
+          <PalestineBorder
             size={props.size}
             avatarUrl={props.url}
             hovered={props.hovered}
@@ -290,7 +297,8 @@ function SupporterBorder(props: {
   children?: JSXElement;
 }) {
   return (
-    <SupporterBorderSvg
+    <FounderAdminSupporterBorder
+      type="supporter"
       children={props.children}
       color={props.color}
       url={props.avatarUrl}
@@ -307,7 +315,8 @@ function AdminBorder(props: {
   children?: JSXElement;
 }) {
   return (
-    <AdminBorderSvg
+    <FounderAdminSupporterBorder
+      type="admin"
       children={props.children}
       color={props.color}
       url={props.avatarUrl}
@@ -325,7 +334,25 @@ function  FounderBorder(props: {
   children?: JSXElement;
 }) {
   return (
-    <FounderBorderSvg
+    <FounderAdminSupporterBorder
+      type="founder"
+      children={props.children}
+      color={props.color}
+      url={props.avatarUrl}
+      hovered={props.hovered}
+    />
+  );
+}
+function  PalestineBorder(props: {
+  size: number;
+  avatarUrl?: string;
+  hovered?: boolean;
+  color?: string;
+  children?: JSXElement;
+}) {
+  return (
+    <FounderAdminSupporterBorder
+      type="palestine"
       children={props.children}
       color={props.color}
       url={props.avatarUrl}

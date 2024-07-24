@@ -13,6 +13,8 @@ export interface AuthenticatedPayload {
   inbox: RawInboxWithoutChannel[];
   lastSeenServerChannelIds: Record<string, number>; // { [channelId]: timestamp }
   voiceChannelUsers: RawVoice[];
+
+
 }
 
 interface MessageMention {
@@ -22,6 +24,11 @@ interface MessageMention {
   serverId?: string;
   channelId: string
   createdAt: number;
+}
+export enum LastOnlineStatus {
+  HIDDEN = 0,
+  FRIENDS = 1,
+  FRIENDS_AND_SERVERS = 2,
 }
 
 export enum DmStatus {
@@ -49,7 +56,11 @@ export interface SelfUser {
   orderedServerIds: string[]
   dmStatus: DmStatus
   friendRequestStatus: FriendRequestStatus
+  lastOnlineStatus?: number
   emailConfirmed: boolean
   connections: RawUserConnection[]
   notices: RawNotice[]
+
+  hideFollowers: boolean;
+  hideFollowing: boolean;
 }

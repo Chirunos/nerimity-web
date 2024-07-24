@@ -6,8 +6,9 @@ import { getUserDetailsRequest } from "@/chat-api/services/UserService";
 import { RawUser } from "@/chat-api/RawData";
 import { getStorageString, StorageKeys } from "@/common/localStorage";
 import Icon from "./ui/icon/Icon";
-import { appLogoUrl, isChristmas, isHalloween } from "@/common/worldEvents";
+import { appLogoUrl } from "@/common/worldEvents";
 import { useTransContext } from "@mbarzda/solid-i18next";
+import { logout } from "@/common/logout";
 
 
 const HeaderContainer = styled("header")`
@@ -113,7 +114,7 @@ export default function PageHeader(props: { hideAccountInfo?: boolean}) {
     <HeaderContainer class="header-container">
       <A href="/" class={titleContainerStyle}>
         <Logo src={appLogoUrl()} alt="logo"/>
-        <Title>{env.APP_NAME}</Title>
+        <Title>Nerimity</Title>
       </A>
       <Show when={user() === false}><LoggedOutLinks/></Show>
       <Show when={user()}><LoggedInLinks user={user() as RawUser}/></Show>
@@ -123,10 +124,13 @@ export default function PageHeader(props: { hideAccountInfo?: boolean}) {
 
 function LoggedInLinks (props: {user: RawUser}) {
   const [t] = useTransContext();
+  const onLogoutClick = () => {
+    logout();
+  };
 
   return (
     <NavigationContainer class="navigation-container">
-      <HeaderLink href='#' label={t("header.accountButton")} />
+      <HeaderLink href='#' onClick={onLogoutClick} label={t("header.logoutButton")} icon="logout" />
       <HeaderLink href='/app' label={t("header.openAppButton")} primary={true} icon='open_in_browser' />
     </NavigationContainer>
   );
@@ -142,9 +146,9 @@ function LoggedOutLinks() {
   );
 }
 
-function HeaderLink(props: { icon?: string, href: string, label: string, primary?: boolean }) {
+function HeaderLink(props: { icon?: string, href: string, label: string, primary?: boolean, onClick?: () => void}) {
   return (
-    <a href={props.href} style={{"text-decoration": "none"}}>
+    <a href={props.href} onClick={props.onClick} style={{"text-decoration": "none"}}>
       <LinkContainer primary={props.primary || false}>
         <Show when={props.icon}><Icon name={props.icon} class={linkIconStyle} /></Show>
         {props.label}

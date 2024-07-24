@@ -26,6 +26,7 @@ import { RichProgressBar, getActivityIconName } from "@/components/activity/Acti
 import { ActivityStatus } from "@/chat-api/RawData";
 import { css } from "solid-styled-components";
 import { Emoji } from "../ui/Emoji";
+import { t } from "i18next";
 
 
 
@@ -198,7 +199,7 @@ const DesktopProfileFlyout = (props: { channelNotice?: string, bio?: string; col
       <Banner maxHeight={200} margin={props.dmPane ? 6 : 0} animate={!props.dmPane ? true : hover()} hexColor={user()?.hexColor} url={bannerUrl(user()!)} />
       <div class={styles.flyoutDetailsContainer}>
         <CustomLink href={RouterEndpoints.PROFILE(props.userId)} class={css`align-self: flex-start;`}>
-          <Avatar animate class={styles.flyoutAvatarStyles} user={user()!} size={72} />
+          <Avatar animate class={styles.flyoutAvatarStyles} user={user()!} size={82} />
         </CustomLink>
         <div class={styles.flyoutOtherDetailsContainer}>
           <span>
@@ -207,8 +208,8 @@ const DesktopProfileFlyout = (props: { channelNotice?: string, bio?: string; col
               <Text color='rgba(255,255,255,0.6)'>:{user()!.tag}</Text>
             </CustomLink>
           </span>
-          <UserPresence hideActivity animate userId={props.userId} showOffline />
-          <Text size={12} opacity={0.6}><CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/following")}>{followingCount()} Following</CustomLink> | <CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/followers")}>{followersCount()} Followers</CustomLink></Text>
+          <UserPresence showFull hideActivity animate userId={props.userId} showOffline />
+          <Text size={12} opacity={0.6}><Show when={isMe() || !details()?.hideFollowing}><CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/following")}>{followingCount()} Following</CustomLink></Show><Show when={isMe() || (!details()?.hideFollowers  && !details()?.hideFollowing)}>{` | `}</Show><Show when={isMe() || !details()?.hideFollowers}><CustomLink href={RouterEndpoints.PROFILE(user()!.id + "/followers")}>{followersCount()} Followers</CustomLink></Show></Text>
         </div>
       </div>
 
@@ -231,7 +232,7 @@ const DesktopProfileFlyout = (props: { channelNotice?: string, bio?: string; col
       </Show>
 
       <Show when={props.channelNotice}>
-        <FlyoutTitle icon='info' title='Channel Notice' primaryColor={colors()?.primary || undefined} />
+        <FlyoutTitle icon='info' title={t("informationDrawer.channelNotice")} primaryColor={colors()?.primary || undefined} />
         <div class={styles.bioContainer}>
           <Text size={12} color='rgba(255,255,255,0.7)' class={colors()?.primary ? css`a {color: ${colors()?.primary}; }`: ""}><Markup text={props.channelNotice!} /></Text>
         </div>
@@ -240,7 +241,7 @@ const DesktopProfileFlyout = (props: { channelNotice?: string, bio?: string; col
       <UserActivity userId={props.userId} primaryColor={colors()?.primary || undefined} />
 
 
-      <Show when={details()?.profile?.bio}>
+      <Show when={bio()?.length}>
         <FlyoutTitle icon='info' title='Bio' primaryColor={colors()?.primary || undefined} />
         <div class={styles.bioContainer}>
           <Text size={12} color='rgba(255,255,255,0.7)' class={colors()?.primary ? css`a {color: ${colors()?.primary}; }`: ""}><Markup text={bio()!} /></Text>

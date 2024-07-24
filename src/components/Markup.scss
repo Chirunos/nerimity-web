@@ -8,7 +8,6 @@
   margin-bottom: 4px;
 }
 
-
 .markup .bold {
   font-weight: bold;
 }
@@ -40,9 +39,13 @@
   background: rgba(255, 255, 255, 0.1);
   border-radius: 4px;
   width: fit-content;
-
+  &.inline {
+    display: inline;
+    padding: 0;
+    padding-left: 4px;
+    padding-right: 4px;
+  }
 }
-
 
 .markup .quoteContainer {
   display: flex;
@@ -76,7 +79,7 @@
 
 .markup .hiddenQuote {
   display: inline-flex;
-  color: rgba(255,255,255,0.5);
+  color: rgba(255, 255, 255, 0.5);
   background: rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   padding: 2px;
@@ -86,8 +89,6 @@
   margin-bottom: 1px;
   align-items: baseline;
 }
-
-
 
 .markup .code-block {
   background: rgba(0, 0, 0, 0.6);
@@ -107,7 +108,7 @@
     align-items: center;
     font-weight: bold;
     padding: 3px;
-    border-bottom: solid 1px rgba(255, 255, 255, 0.4);    
+    border-bottom: solid 1px rgba(255, 255, 255, 0.4);
     margin-bottom: 5px;
 
     .lang-name {
@@ -139,28 +140,50 @@
 
   &:not(.spoiled) {
     background-color: #0e0f10;
-    color: transparent;
     user-select: none;
     cursor: pointer;
     border-radius: 4px;
     -webkit-box-decoration-break: clone;
     box-decoration-break: clone;
-    &:hover {
-      background-color: #0e0f10b9;
+
+    .emoji {
+      opacity: 0;
     }
 
+    .code-block {
+      position: relative;
+      overflow: hidden;
+      &::before {
+        content: "spoiler";
+        position: absolute;
+        inset: 0;
+        background-color: #0e0f10;
+        z-index: 11111111;
+      }
+    }
+
+    * {
+      pointer-events: none;
+      color: transparent;
+    }
+
+    &:hover {
+      background-color: #1c1e20;
+      .code-block::before {
+        background-color: #1c1e20;
+      }
+    }
   }
 }
 
-
 .markup.largeEmoji .emoji {
-  height: 40px;
-  width: 40px;
+  height: 48px;
+  width: 48px;
 }
 
 .markup .emoji {
-  height: 1.5em;
-  width: 1.5em;
+  height: 1.572em;
+  width: 1.572em;
   vertical-align: -0.4em;
   cursor: pointer;
   object-fit: contain;

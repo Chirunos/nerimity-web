@@ -49,10 +49,7 @@ import {
   emitModerationUserSuspended,
   useModerationUserSuspendedListener
 } from "@/common/GlobalEvents";
-import { Notice } from "../ui/Notice/Notice";
 import SettingsBlock from "../ui/settings-block/SettingsBlock";
-import { TicketPage } from "../settings/TicketSettings";
-import { hasBit, USER_BADGES } from "@/chat-api/Bitwise";
 import { classNames } from "@/common/classNames";
 import DeletePostsModal from "./DeletePostsModal";
 
@@ -611,6 +608,18 @@ export function User(props: { user: any, class?: string }) {
               }}
             >
               Suspended
+            </Text>
+          </Show>
+          <Show when={props.user.bot}>
+            <Text
+              size={12}
+              style={{
+                background: "var(--primary-color)",
+                "border-radius": "4px",
+                padding: "3px"
+              }}
+            >
+              Bot
             </Text>
           </Show>
         </FlexRow>

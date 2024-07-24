@@ -35,11 +35,19 @@ export const USER_BADGES = {
     bit: 4,
     color: "#ffffff"
   },
+  PALESTINE: {
+    name: "Palestine",
+    description: "[Click To Help](https://arab.org/click-to-help/palestine/)",
+    bit: 16,
+    credit: "Avatar Border by upklyak on Freepik, edited by Supertiger",
+    color: "linear-gradient(90deg, red, white, green);" 
+  },
   BOT: {
     name: "Bot User",
     description: "Bot User",
+    bit: 32,
     color: "var(--primary-color)" 
-  }
+  },
 };
 
 export const CHANNEL_PERMISSIONS = {
@@ -110,6 +118,12 @@ export const ROLE_PERMISSIONS = {
     description: "servers.rolePermissions.mentionEveryoneDescription",
     bit: 64,
     icon: "alternate_email"
+  },
+  NICKNAME_MEMBER: {
+    name: "servers.rolePermissions.nicknameMember",
+    description: "servers.rolePermissions.nicknameMemberDescription",
+    bit: 128,
+    icon: "edit"
   }
 };
 

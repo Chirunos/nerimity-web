@@ -83,7 +83,7 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
       break;
     }
     case "q": { // quoted messages
-      if (ctx.props().isQuote) {
+      if (ctx.props().isQuote || ctx.props().inline) {
         return <QuoteMessageHidden />;
       }
       const quote = ctx.props().message?.quotedMessages?.find(m => m.id === expr);
@@ -123,7 +123,8 @@ function transformCustomEntity(entity: CustomEntity, ctx: RenderContext) {
     case "tr" : {
 
       const stamp = parseInt(expr);
-      if (isNaN(stamp)) {
+      const date = new Date(stamp * 1000);
+      if (isNaN(date as any)) {
         break;
       }
       ctx.textCount += expr.length;
@@ -167,7 +168,8 @@ function transformEntity(entity: Entity, ctx: RenderContext): JSXElement {
       return <CodeBlock value={value} lang={lang} />;
     }
     case "blockquote": {
-      return <blockquote>{transformEntities(entity, ctx)}</blockquote>;
+
+      return <blockquote classList={{"inline": ctx.props().inline}}>{transformEntities(entity, ctx)}</blockquote>;
     }
     case "color": {
       const { color } = entity.params;

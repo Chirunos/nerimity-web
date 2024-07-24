@@ -60,6 +60,15 @@ export function playMessageNotification(opts?: MessageNotificationOpts) {
     if (mentionedMe) {
       return playSound(getCustomSound("MESSAGE_MENTION"));
     }
+
+    const quoteMention = opts.message.quotedMessages?.find(m => m.createdBy?.id === userId);
+
+    const replyMention = opts.message.mentionReplies && opts.message.replyMessages.find(m => m.replyToMessage?.createdBy?.id === userId);
+
+    if (quoteMention || replyMention) {
+      return playSound(getCustomSound("MESSAGE_MENTION"));
+    }
+
     
     const everyoneMentioned = opts.message.content?.includes("[@:e]");
     if (everyoneMentioned && opts.serverId) {
@@ -69,10 +78,8 @@ export function playMessageNotification(opts?: MessageNotificationOpts) {
         return playSound(getCustomSound("MESSAGE_MENTION"));
       }
     }
-
-
-
   }
+  
   if (notificationSoundMode === ServerNotificationSoundMode.MENTIONS_ONLY) return;
 
   playSound(getCustomSound("MESSAGE"));

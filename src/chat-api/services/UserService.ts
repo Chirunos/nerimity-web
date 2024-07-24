@@ -15,6 +15,17 @@ export async function createGoogleAccountLink (): Promise<string> {
   });
 }
 
+export async function registerFCM(token: string) {
+  return request({
+    url: env.SERVER_URL + '/api' + ServiceEndpoints.user('register-fcm'),
+    body: {token},
+    method: 'POST',
+    useToken: true,
+    notJSON: true,
+  });
+}
+
+
 export async function linkAccountWithGoogle (code: string, nerimityUserToken: string): Promise<{connection: RawUserConnection}> {
   return request({
     url: env.SERVER_URL + "/api/google/link-account",
@@ -130,6 +141,8 @@ export interface UserDetails {
   mutualServerIds: string[];
   latestPost: RawPost
   profile?: UserProfile
+  hideFollowers?: boolean;
+  hideFollowing?: boolean;
 
 }
 export interface UserProfile {
@@ -176,6 +189,14 @@ export async function getFollowing(userId?: string) {
 }
 
 
+export async function toggleBadge(bit: number) {
+  return request<{badges: number}>({
+    url:  env.SERVER_URL + "/api/users/badges/toggle",
+    body: {bit},
+    method: "POST",
+    useToken: true
+  });
+}
 export async function openDMChannelRequest(userId: string) {
   return request<RawInboxWithoutChannel & {channel: RawChannel}>({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.openUserDM(userId),
@@ -227,13 +248,17 @@ interface UpdateUserOptions {
   socketId?: string;
   dmStatus?: number;
   friendRequestStatus?: number;
+  lastOnlineStatus?: number;
+  hideFollowers?: boolean;
+  hideFollowing?: boolean;
 }
-export async function updateUser(body: UpdateUserOptions) {
+export async function updateUser(body: UpdateUserOptions, token?: string | null) {
   return request<{user: any, newToken?: string, }>({
     url:  env.SERVER_URL + "/api" + ServiceEndpoints.user(""),
     method: "POST",
     body,
-    useToken: true
+    useToken: true,
+    token
   });
 }
 export async function followUser(userId: string) {
@@ -281,29 +306,32 @@ export async function deleteAccount(password: string) {
 
 
 
-export const updateDMChannelNotice = async (content: string) => {
+export const updateDMChannelNotice = async (content: string, token?: string | null) => {
   const data = await request<{notice: RawChannelNotice}>({
     method: "PUT",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
     body: {content},
-    useToken: true
+    useToken: true,
+    token
   });
   return data;
 };
 
-export const deleteDMChannelNotice = async () => {
+export const deleteDMChannelNotice = async (token?: string | null) => {
   const data = await request({
     method: "DELETE",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
-    useToken: true
+    useToken: true,
+    token
   });
   return data;
 };
-export const getDMChannelNotice = async () => {
+export const getDMChannelNotice = async (token?: string | null) => {
   const data = await request<{notice: RawChannelNotice}>({
     method: "GET",
     url: env.SERVER_URL + "/api" + ServiceEndpoints.user("channel-notice"),
-    useToken: true
+    useToken: true,
+    token
   });
   return data;
 };

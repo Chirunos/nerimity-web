@@ -21,6 +21,11 @@ export const languages = {
     emoji: "🇿🇦",
     contributors: ["https://github.com/mooocksadev"]
   },
+  "be-by": {
+    name: "Belarusian",
+    emoji: "🇧🇾",
+    contributors: ["https://github.com/1enify"]
+  },
   "pt-br": {
     name: "Brazilian Portuguese",
     emoji: "🇧🇷",
@@ -28,7 +33,7 @@ export const languages = {
   },
   "zn-hant": {
     name: "Chinese (Traditional)",
-    emoji: "🇨🇳",
+    emoji: "🇹🇼",
     contributors: ["Dsiahrz"]
   },
   "nl-nl": {
@@ -44,7 +49,7 @@ export const languages = {
   "de-de": {
     name: "German",
     emoji: "🇩🇪",
-    contributors: ["https://github.com/F-iiral"]
+    contributors: ["https://github.com/F-iiral", "https://github.com/Deutscher775"]
   },
   "hu-hu": {
     name: "Hungarian",
