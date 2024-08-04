@@ -25,6 +25,7 @@ import {
   useSearchParams,
   Outlet,
   useNavigate,
+  useLocation,
 } from "solid-navigator";
 import { css, styled } from "solid-styled-components";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
@@ -41,6 +42,7 @@ import { WarnedModal } from "@/components/warned-modal/WarnedModal";
 import { useReactNativeEvent } from "@/common/ReactNative";
 import { registerFCM } from "@/chat-api/services/UserService";
 import { emitDrawerGoToMain } from "@/common/GlobalEvents";
+import MobileBottomPane from "@/components/ui/MobileBottomPane";
 
 const mobileMainPaneStyles = css`
   height: 100%;
@@ -85,8 +87,13 @@ export default function AppPage() {
   const { account, users } = useStore();
   const [searchParams] = useSearchParams<{ postId: string }>();
   const navigate = useNavigate();
+  const location = useLocation();
 
   const { createPortal, closePortalById } = useCustomPortal();
+
+  navigate(location.pathname + location.search, {
+    replace: true,
+  });
 
   useReactNativeEvent(["registerFCM", "openChannel"], (e) => {
     if (e.type === "registerFCM") {
@@ -150,7 +157,9 @@ export default function AppPage() {
       () => searchParams.postId,
       (postId, oldPostId) => {
         if (!oldPostId && !postId) return;
+
         if (!postId) return closePortalById("post_modal");
+
         createPortal?.(
           (close) => <ViewPostModal close={close} />,
           "post_modal"
@@ -175,7 +184,9 @@ export default function AppPage() {
       Content={() => <MainPane />}
       LeftDrawer={() => <Outlet name="leftDrawer" />}
       RightDrawer={() => <Outlet name="rightDrawer" />}
-    />
+    >
+      <MobileBottomPane />
+    </DrawerLayout>
   );
 }
 

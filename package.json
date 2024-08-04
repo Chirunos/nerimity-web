@@ -39,6 +39,7 @@
     "@nerimity/solid-emoji-picker": "^0.4.8",
     "@nerimity/solid-opus-media-recorder": "^1.0.1",
     "@nerimity/solid-turnstile": "^1.1.0",
+    "@solid-primitives/context": "^0.2.3",
     "@solid-primitives/keyed": "^1.2.2",
     "@thaunknown/simple-peer": "^10.0.10",
     "autoprefixer": "^10.4.19",
@@ -55,12 +56,13 @@
     "sass": "^1.77.8",
     "socket.io-client": "^4.7.5",
     "solid-js": "^1.8.18",
-    "solid-navigator": "^0.3.13",
+    "solid-navigator": "^0.3.14",
     "solid-sortablejs": "^2.1.2",
     "solid-styled-components": "^0.28.5",
     "twemoji": "^14.0.2",
     "uzip": "^0.20201231.0",
-    "voice-activity-detection": "^0.0.5"
+    "voice-activity-detection": "^0.0.5",
+    "zoomist": "^2.1.1"
   },
   "engines": {
     "npm": "please-use-pnpm",

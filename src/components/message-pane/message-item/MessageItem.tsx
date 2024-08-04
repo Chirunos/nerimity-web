@@ -44,12 +44,7 @@ import { Markup } from "@/components/Markup";
 import { useCustomPortal } from "@/components/ui/custom-portal/CustomPortal";
 import Button from "@/components/ui/Button";
 import { ROLE_PERMISSIONS } from "@/chat-api/Bitwise";
-import {
-  ImageEmbed,
-  ImagePreviewModal,
-  clamp,
-  clampImageSize,
-} from "@/components/ui/ImageEmbed";
+import { ImageEmbed, clamp, clampImageSize } from "@/components/ui/ImageEmbed";
 import { CustomLink } from "@/components/ui/CustomLink";
 import { MentionUser } from "@/components/markup/MentionUser";
 import { Emoji } from "@/components/markup/Emoji";
@@ -83,6 +78,8 @@ import { electronWindowAPI } from "@/common/Electron";
 import { reactNativeAPI, useReactNativeEvent } from "@/common/ReactNative";
 import { stat } from "fs";
 import { AudioEmbed } from "./AudioEmbed";
+import { ImagePreviewModal } from "@/components/ui/ImagePreviewModal";
+import { ButtonsEmbed } from "./ButtonsEmbed";
 
 const DeleteMessageModal = lazy(
   () => import("../message-delete-modal/MessageDeleteModal")
@@ -616,6 +613,9 @@ export function Embeds(props: {
           <OGEmbed message={props.message} />
         </Match>
       </Switch>
+      <Show when={props.message.buttons}>
+        <ButtonsEmbed message={props.message} />
+      </Show>
     </div>
   );
 }
@@ -1015,6 +1015,7 @@ function OGEmbed(props: { message: RawMessage }) {
         <ImageEmbed
           attachment={{
             id: "",
+            origSrc: embed().imageUrl!,
             path: `proxy/${encodeURIComponent(embed().imageUrl!)}/embed.${
               embed().imageMime?.split("/")[1]
             }`,
@@ -1058,7 +1059,11 @@ const NormalEmbed = (props: { message: RawMessage }) => {
       return onLinkClick();
     }
     createPortal((close) => (
-      <ImagePreviewModal close={close} url={url(true)} />
+      <ImagePreviewModal
+        close={close}
+        url={url(true)}
+        origUrl={embed().imageUrl}
+      />
     ));
   };
 
@@ -1093,6 +1098,7 @@ const NormalEmbed = (props: { message: RawMessage }) => {
               ignoreClick
               attachment={{
                 id: "",
+                origSrc: embed().imageUrl!,
                 path: `proxy/${encodeURIComponent(embed().imageUrl!)}/embed.${
                   embed().imageMime?.split("/")[1]
                 }`,

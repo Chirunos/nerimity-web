@@ -5,35 +5,32 @@ export interface Experiment {
   id: ExperimentIds;
   name: string;
   description?: string;
-  electron?: boolean
-  reloadRequired?: boolean
+  electron?: boolean;
+  reloadRequired?: boolean;
 }
 
 export const Experiments = [
   {
-    id: "CREATE_APPS",
-    name: "Create Applications",
-    description: "Enables developer option to settings. Lets you create bots.",
-    reloadRequired: false,
-    electron: false
+    id: "HOME_DRAWER",
+    name: "New Home Drawer",
+    description:
+      "Enable the new home drawer, which replaces the current inbox drawer.",
   },
-  {
-    id: "RPC_SERVER",
-    name: "Start local RPC Server.",
-    description: "Rich Presence details for a supported program activity",
-    reloadRequired: true,
-    electron: true
-  }
 ] as const;
 
-export type ExperimentIds = typeof Experiments[number]["id"];
+export type ExperimentIds = (typeof Experiments)[number]["id"];
 
-const [enabledExperiments, setEnabledExperiments] = useReactiveLocalStorage<string[]>(StorageKeys.ENABLED_EXPERIMENTS, []);
+const [enabledExperiments, setEnabledExperiments] = useReactiveLocalStorage<
+  string[]
+>(StorageKeys.ENABLED_EXPERIMENTS, []);
 
 export const isExperimentEnabled = (experimentId: ExperimentIds) => {
-  return enabledExperiments().includes(experimentId);
+  return () => enabledExperiments().includes(experimentId);
 };
-export const ShowExperiment = (props: {id?: ExperimentIds, children: JSXElement}) => {
+export const ShowExperiment = (props: {
+  id?: ExperimentIds;
+  children: JSXElement;
+}) => {
   return (
     <Show when={!props.id || enabledExperiments().includes(props.id)}>
       {props.children}
@@ -42,9 +39,10 @@ export const ShowExperiment = (props: {id?: ExperimentIds, children: JSXElement}
 };
 
 export const useExperiment = (experimentId: () => ExperimentIds) => {
-
   const experiment = () => {
-    const experiment = Experiments.find(experiment => experiment.id === experimentId());
+    const experiment = Experiments.find(
+      (experiment) => experiment.id === experimentId()
+    );
     const enabled = enabledExperiments().includes(experimentId());
     if (enabled) {
       return experiment;
@@ -53,15 +51,16 @@ export const useExperiment = (experimentId: () => ExperimentIds) => {
   const toggle = () => {
     const enabled = enabledExperiments().includes(experimentId());
     if (enabled) {
-      setEnabledExperiments(enabledExperiments().filter(id => id !== experimentId()));
-    }    
-    else {
+      setEnabledExperiments(
+        enabledExperiments().filter((id) => id !== experimentId())
+      );
+    } else {
       setEnabledExperiments([...enabledExperiments(), experimentId()]);
     }
   };
 
   return {
     experiment,
-    toggleExperiment: toggle
+    toggleExperiment: toggle,
   };
 };
